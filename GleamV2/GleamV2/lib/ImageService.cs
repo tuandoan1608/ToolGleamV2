@@ -19,25 +19,41 @@ namespace GleamV2.lib
         private const uint MOUSEEVENTF_LEFTUP = 0x04;
         private const uint MOUSEEVENTF_RIGHTDOWN = 0x08;
         private const uint MOUSEEVENTF_RIGHTUP = 0x10;
+    
         void sendMouseDoubleClick(Point p)
         {
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (uint)684, (uint)64, 0, 0);
         }
-        public void FindImage(Bitmap screen,Bitmap subCreen,int check)
-        {
+
+        public Point pointImage(Bitmap screen, Bitmap subCreen, int check)
+        {      
             bool result = false;
             while (result == false)
             {
-
-                Point resImagePoint = (Point)ImageScanOpenCV.FindOutPoint(screen, subCreen);
+                Point resImagePoints = (Point)ImageScanOpenCV.FindOutPoint(screen, subCreen);
                 Thread.Sleep(5000);
-                if (resImagePoint != null)
+                if (resImagePoints != null)
                 {
-                    sendMouseDoubleClick(resImagePoint);
-                    result = true;
-                    // AutoControl.MouseClick(resImagePoint,EMouseKey.LEFT);
+                    result = true; 
                 }
             }
+            Point resImagePoint = (Point)ImageScanOpenCV.FindOutPoint(screen, subCreen);
+            return resImagePoint;
+        }
+
+        public void FindImage(Point point,int check)
+        {
+
+            try
+            {
+                AutoControl.MouseClick(point, EMouseKey.LEFT);
+            }
+            catch(Exception err)
+            {  
+                   
+            }
+               
+            
         }
     }
 }
